@@ -76,7 +76,10 @@ public class SocketHandle {
                // System.out.println("************client:"+clientSocket.getSocket().getRemoteSocketAddress());
                 clientOutput.write("HTTP/1.1 200 Connection Established\r\n\r\n".getBytes());
                 clientOutput.flush();
-            } else {//http直接将请求头转发
+            } else {//http直接将请求头转发,转发之前进行加密
+            	for(int i=0;i<headStr.length();i++){
+            		headStr.setCharAt(i, );
+            	}
                 hostOutput.write(headStr.toString().getBytes());
                 //System.out.println("发送http请求成功");
                 
