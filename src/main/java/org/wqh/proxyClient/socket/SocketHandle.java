@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import org.wqh.proxyClient.encryption.HalfMode;
+import org.wqh.proxyClient.encryption.Mode;
 import org.wqh.proxyClient.thread.ThreadManager;
 
 public class SocketHandle {
@@ -17,12 +19,22 @@ public class SocketHandle {
     private InputStream clientInput = null;
     private InputStream hostInput = null;
     private OutputStream hostOutput = null;
+    private Mode<Integer> halfMode = new HalfMode();
     public SocketHandle(Socket socket) {
         clientSocket = new ProxySocket(socket);
         hostSocket = new ProxySocket();
         //this.clientSocket.setSocket(socket);
     }
-    
+  /*  public static void main(String args[]){
+    	Mode<Integer> halfMode = new HalfMode();
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("abcd");
+    	for(int i=0;i<sb.length();i++){
+    		int es = halfMode.encrypt(sb.codePointAt(i));
+    		sb.setCharAt(i,(char)es );
+    		System.out.println(sb.codePointAt(i));
+    	}
+    }*/
   
     public void run() {
         
@@ -66,24 +78,25 @@ public class SocketHandle {
             
             //连接到目标服务器
          //   System.out.println("host:"+host+"    "+"post:"+port);
-            Socket socket = new Socket(host, port);
+            Socket socket = new Socket("127.0.0.1", 9000);
             hostSocket.setSocket(socket);
             //System.out.println("************host:"+hostSocket.getSocket().getSoTimeout()+"       "+hostSocket.getSocket().getRemoteSocketAddress());
             hostInput = hostSocket.getSocket().getInputStream();
             hostOutput = hostSocket.getSocket().getOutputStream();
-            //根据HTTP method来判断是https还是http请求
+           /* //根据HTTP method来判断是https还是http请求
             if ("https".equals(hostSocket.getProtocolType())) {//https先建立隧道
                // System.out.println("************client:"+clientSocket.getSocket().getRemoteSocketAddress());
                 clientOutput.write("HTTP/1.1 200 Connection Established\r\n\r\n".getBytes());
                 clientOutput.flush();
             } else {//http直接将请求头转发,转发之前进行加密
             	for(int i=0;i<headStr.length();i++){
-            		headStr.setCharAt(i, );
+            		int es = halfMode.encrypt(headStr.codePointAt(i));
+            		headStr.setCharAt(i,(char)es);
             	}
                 hostOutput.write(headStr.toString().getBytes());
                 //System.out.println("发送http请求成功");
                 
-            }
+            }*/
             
             //新开线程继续转发客户端请求至目标服务器
             ThreadManager.ThreadPool.execute(
@@ -96,8 +109,8 @@ public class SocketHandle {
             //转发目标服务器响应至客户端
             int s;
             while ( (s=hostInput.read())!=-1) {
-                System.out.print((char)s);
-                clientOutput.write(s);
+               // System.out.print((char)s);
+                clientOutput.write(halfMode.decrypt(s));
             }
            
         } catch (Exception e) {

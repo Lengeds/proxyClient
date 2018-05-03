@@ -5,13 +5,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import org.wqh.proxyClient.encryption.HalfMode;
+import org.wqh.proxyClient.encryption.Mode;
+
 public  class ProxySocket {
 	
 	private Socket socket;
-	private String host; 
-	private int port;
+	
 	private String protocolType;
-   
+	private Mode<Integer> halfMode = new HalfMode();
     
     public ProxySocket(){
     	
@@ -28,18 +30,7 @@ public  class ProxySocket {
     public void setSocket(Socket socket) {
         this.socket = socket;
     }
-	public String getHost() {
-		return host;
-	}
-	public void setHost(String host) {
-		this.host = host;
-	}
-	public int getPort() {
-		return port;
-	}
-	public void setPort(int port) {
-		this.port = port;
-	}
+	
 	public String getProtocolType() {
 		return protocolType;
 	}
@@ -57,8 +48,8 @@ public  class ProxySocket {
 				int s;
 				
 					while((s=in.read())!=-1){
-						System.out.print((char)s);
-						outputStream.write(s);
+						//System.out.print((char)s);
+						outputStream.write(halfMode.encrypt(s));
 			            		 
 					}
 				
