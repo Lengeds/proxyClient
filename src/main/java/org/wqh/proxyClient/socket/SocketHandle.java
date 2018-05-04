@@ -25,23 +25,26 @@ public class SocketHandle {
         hostSocket = new ProxySocket();
         //this.clientSocket.setSocket(socket);
     }
-  /*  public static void main(String args[]){
+    public static void main(String args[]){
     	Mode<Integer> halfMode = new HalfMode();
     	StringBuilder sb = new StringBuilder();
-    	sb.append("abcd");
+    	sb.append("C");
+    	String s = "C";
     	for(int i=0;i<sb.length();i++){
     		int es = halfMode.encrypt(sb.codePointAt(i));
     		sb.setCharAt(i,(char)es );
     		System.out.println(sb.codePointAt(i));
     	}
-    }*/
+    //	System.out.println(s.codePointAt(0)+" "+(int)'C');
+    	
+    }
   
     public void run() {
         
         try {
             clientInput = clientSocket.getSocket().getInputStream();
             clientOutput = clientSocket.getSocket().getOutputStream();
-            String line;
+          /*  String line;
             String host = "";
             InputStreamReader in = new InputStreamReader(clientInput);
             BufferedReader bf = new BufferedReader(in);
@@ -74,17 +77,17 @@ public class SocketHandle {
             int port = 80;
             if (hostTemp.length > 1) {
                 port = Integer.valueOf(hostTemp[1]);
-            }
+            }*/
             
-            //连接到目标服务器
+            //连接到代理服务器
          //   System.out.println("host:"+host+"    "+"post:"+port);
             Socket socket = new Socket("127.0.0.1", 9000);
             hostSocket.setSocket(socket);
             //System.out.println("************host:"+hostSocket.getSocket().getSoTimeout()+"       "+hostSocket.getSocket().getRemoteSocketAddress());
             hostInput = hostSocket.getSocket().getInputStream();
             hostOutput = hostSocket.getSocket().getOutputStream();
-           /* //根据HTTP method来判断是https还是http请求
-            if ("https".equals(hostSocket.getProtocolType())) {//https先建立隧道
+            //根据HTTP method来判断是https还是http请求
+          /*  if ("https".equals(hostSocket.getProtocolType())) {//https先建立隧道
                // System.out.println("************client:"+clientSocket.getSocket().getRemoteSocketAddress());
                 clientOutput.write("HTTP/1.1 200 Connection Established\r\n\r\n".getBytes());
                 clientOutput.flush();
@@ -96,9 +99,9 @@ public class SocketHandle {
                 hostOutput.write(headStr.toString().getBytes());
                 //System.out.println("发送http请求成功");
                 
-            }*/
-            
-            //新开线程继续转发客户端请求至目标服务器
+            }
+            */
+            //新开线程转发并加密客户端请求至代理服务器
             ThreadManager.ThreadPool.execute(
                          ThreadManager.excSocketThread.excMethod(
                            hostSocket,
@@ -106,7 +109,7 @@ public class SocketHandle {
                            new Object[]{clientInput}, 
                            InputStream.class));
            
-            //转发目标服务器响应至客户端
+            //转发代理服务器响应至客户端
             int s;
             while ( (s=hostInput.read())!=-1) {
                // System.out.print((char)s);
