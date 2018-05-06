@@ -48,8 +48,9 @@ public  class ProxySocket {
 				int s;
 				
 					while((s=in.read())!=-1){
-						System.out.print(halfMode.encrypt(s)+" ");
+						//System.out.print(halfMode.encrypt(s)+" ");
 						outputStream.write(halfMode.encrypt(s));
+					//	
 			            		 
 					}
 				
