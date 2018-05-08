@@ -41,7 +41,7 @@ public class SocketHandle {
        
             //连接到代理服务器
          //   System.out.println("host:"+host+"    "+"post:"+port);
-            Socket socket = new Socket("127.0.0.1", 9000);
+            Socket socket = new Socket("159.138.7.35", 9000);
             hostSocket.setSocket(socket);
             //System.out.println("************host:"+hostSocket.getSocket().getSoTimeout()+"       "+hostSocket.getSocket().getRemoteSocketAddress());
             hostInput = hostSocket.getSocket().getInputStream();
