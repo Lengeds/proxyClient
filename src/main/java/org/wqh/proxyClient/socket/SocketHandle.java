@@ -34,7 +34,9 @@ public class SocketHandle {
     }*/
   
     public void run() {
-        
+    
+		
+		
         try {
             clientInput = clientSocket.getSocket().getInputStream();
             clientOutput = clientSocket.getSocket().getOutputStream();
@@ -62,10 +64,8 @@ public class SocketHandle {
                 clientOutput.write(halfMode.decrypt(s));
             }
            
-        } catch (Exception e) {
-       /*       System.out.println("********************:"+clientSocket.getSocket().isClosed()+"     "+clientSocket.getSocket().isConnected()
-                                +"      "+clientSocket.getSocket().isInputShutdown()+"      "+clientSocket.getSocket().isOutputShutdown()
-                                );*/
+        } catch(Exception e) {
+     
                 System.out.print("Exception catch:");
                 e.printStackTrace();
         } finally {
