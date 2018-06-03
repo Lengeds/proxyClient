@@ -45,10 +45,11 @@ public  class ProxySocket {
 		 OutputStream outputStream= null;
 		    try {
 				outputStream = getSocket().getOutputStream();
-				int s;
+				int s,k;
 				
 					while((s=in.read())!=-1){
-						//System.out.print(halfMode.encrypt(s)+" ");
+					    
+						System.out.print((char)s);
 						outputStream.write(halfMode.encrypt(s));
 					//	
 			            		 

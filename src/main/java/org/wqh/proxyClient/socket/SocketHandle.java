@@ -58,10 +58,12 @@ public class SocketHandle {
                            InputStream.class));
            
             //转发代理服务器响应至客户端
-            int s;
-            while ( (s=hostInput.read())!=-1) {
+            int s,k;
+            while ( (s=hostInput.read())!=-1) { 
                // System.out.print((char)halfMode.decrypt(s).intValue());
-                clientOutput.write(halfMode.decrypt(s));
+                   k = halfMode.decrypt(s);
+                   //System.out.print((char)k);
+                clientOutput.write(k);
             }
            
         } catch(Exception e) {
