@@ -49,7 +49,7 @@ public  class ProxySocket {
 				
 					while((s=in.read())!=-1){
 					    
-						System.out.print((char)s);
+						//System.out.print((char)s);
 						outputStream.write(halfMode.encrypt(s));
 					//	
 			            		 
