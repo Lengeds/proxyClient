@@ -11,7 +11,7 @@ public class Starter {
 		System.out.println("完成初始化ThreadManager...........");
 		
 		System.out.println("正在启动socket监听器AcceptClient...........");
-		 AcceptClientSocket acs = new AcceptClientSocket();
-         acs.startMonitor();
+		AcceptClientSocket acs = new AcceptClientSocket();
+            acs.startMonitor();
 	}
 }

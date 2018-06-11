@@ -50,12 +50,15 @@ public class SocketHandle {
             hostOutput = hostSocket.getSocket().getOutputStream();
             
             //新开线程转发并加密客户端请求至代理服务器
-            ThreadManager.ThreadPool.execute(
+            ThreadManager.ThreadPool.execute(new Thread(()-> {
+                      hostSocket.send(clientInput);
+                }));
+           /* ThreadManager.ThreadPool.execute(
                          ThreadManager.excSocketThread.excMethod(
                            hostSocket,
                            "send",
                            new Object[]{clientInput}, 
-                           InputStream.class));
+                           InputStream.class));*/
            
             //转发代理服务器响应至客户端
             int s,k;
@@ -87,7 +90,7 @@ public class SocketHandle {
             }
             if (hostSocket.getSocket() != null) {
                 try {
-                        System.out.println("close clientSokect!");
+                        //System.out.println("close clientSokect!");
                         hostSocket.getSocket().close();
                 } catch (IOException e) {
                     e.printStackTrace();
