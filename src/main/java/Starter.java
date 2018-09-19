@@ -12,6 +12,6 @@ public class Starter {
 		
 		System.out.println("正在启动socket监听器AcceptClient...........");
 		AcceptClientSocket acs = new AcceptClientSocket();
-            acs.startMonitor();
+            acs.startMonitor();//
 	}
 }
